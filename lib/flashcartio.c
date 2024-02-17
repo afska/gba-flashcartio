@@ -14,9 +14,7 @@ bool flashcartio_activate(void) {
   return false;
 }
 
-bool flashcartio_read_sector(uint32_t sector,
-                             uint8_t* destination,
-                             uint16_t count) {
+bool flashcartio_read_sector(u32 sector, u8* destination, u16 count) {
   switch (active_flashcart) {
     case EVERDRIVE_GBA_X5: {
       return diskRead(sector, destination, count) == 0;
