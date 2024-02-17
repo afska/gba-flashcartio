@@ -52,17 +52,22 @@ int main() {
 
   while (true) {
     u16 keys = waitFor(KEY_DOWN | KEY_UP | KEY_A | KEY_B);
-    if (keys == KEY_DOWN) {
+    if (keys & KEY_DOWN) {
+      // Cursor down
       selected = (selected + 1) % files.size();
-    } else if (keys == KEY_UP) {
+    } else if (keys & KEY_UP) {
+      // Cursor up
       selected = selected == 0 ? files.size() - 1 : selected - 1;
-    } else if (keys == KEY_A) {
+    } else if (keys & KEY_A) {
+      // Read file/directory
       auto selectedItem = files[selected];
       if (selectedItem.fattrib & AM_DIR) {
+        // Navigate to directory
         path += "/" + std::string(selectedItem.fname);
         files = readDir(path);
         selected = 0;
       } else {
+        // Read file
         if (selectedItem.fsize < 1024 * 10) {
           auto filePath = path + "/" + selectedItem.fname;
           FIL fil;
@@ -81,7 +86,8 @@ int main() {
 
         waitFor(KEY_B);
       }
-    } else if (keys == KEY_B) {
+    } else if (keys & KEY_B) {
+      // Go back
       if (path != "/") {
         path = "/";
         files = readDir(path);
@@ -139,15 +145,13 @@ void halt(std::string text) {
 }
 
 u16 waitFor(u16 key) {
-  u16 keys;
+  u32 hits;
 
   do {
-    keys = ~REG_KEYS & KEY_ANY;
-  } while ((keys & key));
+    VBlankIntrWait();
+    key_poll();
+    hits = key_hit(key);
+  } while (hits == 0);
 
-  do {
-    keys = ~REG_KEYS & KEY_ANY;
-  } while (!(keys & key));
-
-  return keys;
+  return hits;
 }

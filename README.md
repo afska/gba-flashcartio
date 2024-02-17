@@ -8,16 +8,16 @@ A Game Boy Advance (GBA) C library to access the SD card of the following flashc
 
 The flashcart type is autodetected and \[ex\]FAT partitions are supported via the [ELM-ChaN's FatFs library](http://elm-chan.org/fsw/ff).
 
-- **Only reads are supported**.
+- **Only reads are implemented in FatFs**.
 - ~1KB of static EWRAM will be used by some functions.
 
 ## Usage
 
-Refer to the [example](example/src/main.cpp) to see how it works. The example is written in C++ for demonstration purposes, but `gba-flashcartio` is a C library, fully compatible with both C and C++.
+Refer to the [example](example/src/main.cpp) to see how it works. It is written in C++ for demonstration purposes, but `gba-flashcartio` is a C library, fully compatible with both C and C++.
 
 ## Compile-time options
 
-- `FLASHCARTIO_USE_DMA1`: Uncomment this in `lib/sys.h` to use DMA1 instead of DMA3. You'll need this if you also use DMA for audio, as DMA1 has higher priority and will corrupt the SD reads/writes.
+- `FLASHCARTIO_USE_DMA1`: Uncomment this in `lib/sys.h` to use DMA1 instead of DMA3. You'll need this if you also use DMA for audio, as DMA1/DMA2 have higher priority and will corrupt the SD reads.
 
 ## Thanks to
 
