@@ -3,8 +3,7 @@
 #include <vector>
 
 extern "C" {
-// (0) Include the headers
-#include "../lib/fatfs/ff.h"
+// (0) Include the header
 #include "../lib/flashcartio.h"
 }
 

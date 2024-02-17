@@ -1,7 +1,5 @@
 ﻿# gba-flashcartio
 
-![flashcartio](docs/flashcartio.gif)
-
 A Game Boy Advance (GBA) C library to access the SD card of the following flashcarts:
 - Everdrive GBA X5
 - EZ Flash Omega
