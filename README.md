@@ -14,6 +14,10 @@ The flashcart type is autodetected and \[ex\]FAT partitions are supported via th
 
 Refer to the [example](example/src/main.cpp) to see how it works. The example is written in C++ for demonstration purposes, but `gba-flashcartio` is a C library, fully compatible with both C and C++.
 
+## Compile-time options
+
+- `FLASHCARTIO_USE_DMA1`: Uncomment this in `lib/sys.h` to use DMA1 instead of DMA3. You'll need this if you also use DMA for audio, as DMA1 has higher priority and will corrupt the SD reads/writes.
+
 ## Thanks to
 
 - **asie** for the FatFs library recommendation.
