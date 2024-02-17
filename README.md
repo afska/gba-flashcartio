@@ -8,7 +8,8 @@ A Game Boy Advance (GBA) C library to access the SD card of the following flashc
 
 The flashcart type is autodetected and \[ex\]FAT partitions are supported via the [ELM-ChaN's FatFs library](http://elm-chan.org/fsw/ff).
 
-**Only reads are supported**.
+- **Only reads are supported**.
+- ~1KB of static EWRAM will be used by some functions.
 
 ## Usage
 

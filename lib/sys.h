@@ -29,17 +29,53 @@
 #define EWRAM_CODE __attribute__((section(".ewram"), long_call))
 #define EWRAM_BSS __attribute__((section(".sbss")))
 
-#define DMA_ENABLE (1 << 31)
+#define REG_BASE_ 0x04000000
+#define REG_DMA0SAD *(vu32*)(REG_BASE_ + 0x0b0)
+#define REG_DMA0DAD *(vu32*)(REG_BASE_ + 0x0b4)
+#define REG_DMA0CNT *(vu32*)(REG_BASE_ + 0x0b8)
+#define REG_DMA1SAD *(vu32*)(REG_BASE_ + 0x0bc)
+#define REG_DMA1DAD *(vu32*)(REG_BASE_ + 0x0c0)
+#define REG_DMA1CNT *(vu32*)(REG_BASE_ + 0x0c4)
+#define REG_DMA2SAD *(vu32*)(REG_BASE_ + 0x0c8)
+#define REG_DMA2DAD *(vu32*)(REG_BASE_ + 0x0cc)
+#define REG_DMA2CNT *(vu32*)(REG_BASE_ + 0x0d0)
+#define REG_DMA3SAD *(vu32*)(REG_BASE_ + 0x0d4)
+#define REG_DMA3DAD *(vu32*)(REG_BASE_ + 0x0d8)
+#define REG_DMA3CNT *(vu32*)(REG_BASE_ + 0x0dc)
+#define DMA_DST_INC (0 << 21)
+#define DMA_DST_DEC (1 << 21)
+#define DMA_DST_FIXED (2 << 21)
+#define DMA_DST_RELOAD (3 << 21)
+#define DMA_SRC_INC (0 << 23)
+#define DMA_SRC_DEC (1 << 23)
+#define DMA_SRC_FIXED (2 << 23)
+#define DMA_REPEAT (1 << 25)
 #define DMA16 (0 << 26)
 #define DMA32 (1 << 26)
-#define DMA_Copy(source, dest, mode) \
-  {                                  \
-    DMA_SRC = (u32)(source);         \
-    DMA_DST = (u32)(dest);           \
-    DMA_CTR = DMA_ENABLE | (mode);   \
+#define GAMEPAK_DRQ (1 << 27)
+#define DMA_IMMEDIATE (0 << 28)
+#define DMA_VBLANK (1 << 28)
+#define DMA_HBLANK (2 << 28)
+#define DMA_SPECIAL (3 << 28)
+#define DMA_IRQ (1 << 30)
+#define DMA_ENABLE (1 << 31)
+
+#define DMA_Copy(channel, source, dest, mode)    \
+  {                                              \
+    REG_DMA##channel##SAD = (u32)(source);       \
+    REG_DMA##channel##DAD = (u32)(dest);         \
+    REG_DMA##channel##CNT = DMA_ENABLE | (mode); \
   }
-inline void dmaCopy(const void* source, void* dest, u32 size) {
-  DMA_Copy(source, dest, DMA16 | size >> 1);
+
+inline __attribute__((always_inline)) void dmaCopy(const void* source,
+                                                   void* dest,
+                                                   u32 size) {
+#ifdef FLASHCARTIO_USE_DMA1
+  DMA_Copy(1, source, dest, DMA16 | size >> 1);
+#endif
+#ifndef FLASHCARTIO_USE_DMA1
+  DMA_Copy(3, source, dest, DMA16 | size >> 1);
+#endif
 }
 
 #endif /* SYS_H */

@@ -2,6 +2,7 @@
 
 #include "everdrivegbax5/bios.h"
 #include "everdrivegbax5/disk.h"
+#include "ezflashomega/io_ezfo.h"
 
 ActiveFlashcart active_flashcart = NO_FLASHCART;
 
