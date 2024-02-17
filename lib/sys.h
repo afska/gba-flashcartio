@@ -22,4 +22,21 @@
 #define DMA_LEN *((volatile u16*)0x40000C4)
 #define DMA_CTR *((volatile u16*)0x40000C6)
 
+#define DMA_ENABLE (1 << 31)
+#define DMA16 (0 << 26)
+#define DMA32 (1 << 26)
+#define EWRAM_CODE __attribute__((section(".ewram"), long_call))
+#define EWRAM_BSS __attribute__((section(".sbss")))
+
+#define DMA_Copy(source, dest, mode) \
+  {                                  \
+    DMA_SRC = (u32)(source);         \
+    DMA_DST = (u32)(dest);           \
+    DMA_CTR = DMA_ENABLE | (mode);   \
+  }
+
+inline void dmaCopy(const void* source, void* dest, u32 size) {
+  DMA_Copy(source, dest, DMA16 | size >> 1);
+}
+
 #endif /* SYS_H */

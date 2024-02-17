@@ -12,4 +12,10 @@ The flashcart type is autodetected and \[ex\]FAT partitions are supported via th
 
 ## Usage
 
-Check out the [example](example/src/main.cpp).
+Refer to the [example](example/src/main.cpp) to see how it works. The example is written in C++ for demonstration purposes, but `gba-flashcartio` is a C library, fully compatible with both C and C++.
+
+## Thanks to
+
+- **asie** for the FatFs library recommendation.
+- **Xilefian** for [ezfo-disk_io](https://github.com/felixjones/ezfo-disc_io) development.
+- **TotalJustice** for EZfo code improvements in [this gist](https://gist.github.com/ITotalJustice/b6c2f630c6ac5fff1e8b117681e27abd).
