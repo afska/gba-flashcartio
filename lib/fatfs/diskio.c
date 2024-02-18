@@ -21,7 +21,7 @@ DSTATUS disk_status(BYTE driveId) {
 /*-----------------------------------------------------------------------*/
 
 DSTATUS disk_initialize(BYTE driveId) {
-  return 0;
+  return active_flashcart != NO_FLASHCART ? 0 : STA_NOINIT;
 }
 
 /*-----------------------------------------------------------------------*/
