@@ -28,6 +28,7 @@ void init() {
   irq_add(II_KEYPAD, SoftReset);
 
   // (1) Initialize the library
+  log("Activating...");
   if (!flashcartio_activate())
     halt("No flashcart detected!");
 }
