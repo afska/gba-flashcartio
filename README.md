@@ -6,8 +6,11 @@ A Game Boy Advance (GBA) C library to access the SD card of the following flashc
 
 The flashcart type is autodetected and \[ex\]FAT partitions are supported via [ELM-ChaN's FatFs library](http://elm-chan.org/fsw/ff).
 
-- **Only reads are implemented in FatFs**.
-- ~1KB of static EWRAM will be used by some functions.
+- **Only read operations are implemented in FatFs**.
+- It reads using either DMA3 or DMA1.
+- In EZ Flash mode, ROM is unavailable while using the SD card, so:
+  * ~1KB of static EWRAM will be taken by some functions.
+  * When reading, interrupts will be briefly disabled (`REG_IME = 0`) to avoid problems.
 
 ## Usage
 
@@ -20,5 +23,5 @@ Refer to the [example](example/src/main.cpp) to see how it works. It is written 
 ## Thanks to
 
 - **asie** for the FatFs library recommendation.
-- **Xilefian** for [ezfo-disk_io](https://github.com/felixjones/ezfo-disc_io) development.
+- **Xilefian** for the [ezfo-disk_io](https://github.com/felixjones/ezfo-disc_io) development.
 - **TotalJustice** for EZfo code improvements in [this gist](https://gist.github.com/ITotalJustice/b6c2f630c6ac5fff1e8b117681e27abd).
