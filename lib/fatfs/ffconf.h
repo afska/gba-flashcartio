@@ -123,7 +123,7 @@ take care on stack overflow. When use heap /  memory for the working buffer,
 memory management functions, ff_memalloc() and /  ff_memfree() exemplified in
 ffsystem.c, need to be added to the project. */
 
-#define FF_LFN_UNICODE 0
+#define FF_LFN_UNICODE 2
 /* This option switches the character encoding on the API when LFN is enabled.
 /
 /   0: ANSI/OEM in current CP (TCHAR = char)
@@ -142,7 +142,7 @@ suffcient for /  the file names to read. The maximum possible length of the read
 file name depends /  on character encoding. When LFN is not enabled, these
 options have no effect. */
 
-#define FF_FS_RPATH 0
+#define FF_FS_RPATH 2
 /* This option configures support for relative path.
 /
 /   0: Disable relative path and remove related functions.
