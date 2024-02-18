@@ -45,6 +45,7 @@ u8 sd_cfg;
 u16 eep_size;
 
 bool bi_init_sd_only() {
+  bi_reg_wr(REG_KEY, 0);
   u16 config = bi_reg_rd(REG_SD_CFG);
   if (config == 0 || config == 0xffff)
     return false;
