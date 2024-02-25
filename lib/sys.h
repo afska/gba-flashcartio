@@ -3,6 +3,17 @@
 
 #include <stdbool.h>
 
+#define BI_SAV_EEP 16
+#define BI_SAV_SRM 32
+#define BI_SAV_FLA64 64
+#define BI_SAV_FLA128 80
+
+// Set your game's save type here (used by EverDrive)
+#define FLASHCARTIO_SAVE_TYPE BI_SAV_SRM
+
+// Enables 32MB ROM support (used by EverDrive)
+#define FLASHCARTIO_BIG_ROM 1
+
 // Use DMA1 instead of DMA3 (uncomment to enable)
 // #define FLASHCARTIO_USE_DMA1
 
