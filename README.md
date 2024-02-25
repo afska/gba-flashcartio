@@ -8,6 +8,7 @@ The flashcart type is autodetected and FAT partitions are supported via [ELM-Cha
 
 - **Only read operations are implemented in FatFs**.
 - It reads using either DMA3 or DMA1.
+- In EverDrive mode, the latter 16MB of the ROM is unavailable while reading, so avoid using that part in your interrupt handlers, or your code might crash.
 - In EZ Flash mode, ROM is unavailable while using the SD card, so:
   * ~1KB of static EWRAM will be taken by some functions.
   * When reading, interrupts will be briefly disabled (`REG_IME = 0`) to avoid problems.
@@ -22,7 +23,7 @@ Refer to the [example](example/src/main.cpp) to see how it works. It is written 
 In `lib/sys.h`:
 - `FLASHCARTIO_SAVE_TYPE`: Set your game's save type manually here (one of `BI_SAV_EEP`, `BI_SAV_SRM`, `BI_SAV_FLA64`, `BI_SAV_FLA128`). The default is `BI_SAV_SRM` (SRAM). Unfortunately, this is required for the EverDrive cart, as initializing the registers overwrites ROM configuration that is usually autodetected otherwise.
 - `FLASHCARTIO_BIG_ROM`: If your game is bigger than 16MB, this should be enabled (and it is by default). This setting is used by the EverDrive cart.
-- `FLASHCARTIO_USE_DMA1`: Uncomment this in `lib/sys.h` to use DMA1 instead of DMA3. You'll need this if you also use DMA for audio, as DMA1/DMA2 have higher priority and will corrupt the SD reads.
+- `FLASHCARTIO_USE_DMA1`: Uncomment this to use DMA1 instead of DMA3. You'll need this if you also use DMA for audio, as DMA1/DMA2 have higher priority and will corrupt the SD reads.
 
 In `lib/fatfs/ffconf.h`:
 - `FF_FS_EXFAT`: exFAT support can be disabled, as this can cause patent issues especially for commercial homebrew.
