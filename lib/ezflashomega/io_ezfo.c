@@ -153,51 +153,70 @@ static bool EWRAM_CODE _EZFO_TestRompage(u16 wanted, u16 page) {
 }
 
 bool EWRAM_CODE _EZFO_startUp(void) {
+#if FLASHCARTIO_EZFO_DISABLE_IRQ != 0
   u16 ime = REG_IME;
   REG_IME = 0;
+#endif
   const u16 complement = ROM_HEADER_CHECKSUM;
 
   // unmap rom, if the data matches, then this is not an ezflash
   if (_EZFO_TestRompage(complement, ROMPAGE_BOOTLOADER)) {
+#if FLASHCARTIO_EZFO_DISABLE_IRQ != 0
     REG_IME = ime;
+#endif
     return false;
   }
 
   // find where the rom is mapped, try psram first
   if (_EZFO_TestRompage(complement, ROMPAGE_PSRAM)) {
+#if FLASHCARTIO_EZFO_DISABLE_IRQ != 0
     REG_IME = ime;
+#endif
     return true;
   }
 
   // try and find it within norflash, test each 1MiB page (512 pages)
   for (int i = 0; i < S98WS512PE0_FLASH_PAGE_MAX; i++) {
     if (_EZFO_TestRompage(complement, i)) {
+#if FLASHCARTIO_EZFO_DISABLE_IRQ != 0
       REG_IME = ime;
+#endif
       return true;
     }
   }
 
+#if FLASHCARTIO_EZFO_DISABLE_IRQ != 0
   REG_IME = ime;
+#endif
+
   // this literally shouldn't happen, contact me if you hit this!
   return false;
 }
 
 bool EWRAM_CODE _EZFO_readSectors(u32 address, u32 count, void* buffer) {
+#if FLASHCARTIO_EZFO_DISABLE_IRQ != 0
   u16 ime = REG_IME;
   REG_IME = 0;
+#endif
   SetRompage(ROMPAGE_BOOTLOADER);
   const u32 result = Read_SD_sectors(address, count, buffer);
   SetRompage(ROMPAGE_ROM);
+#if FLASHCARTIO_EZFO_DISABLE_IRQ != 0
   REG_IME = ime;
+#endif
   return result == 0;
 }
 
 bool EWRAM_CODE _EZFO_writeSectors(u32 address, u32 count, const void* buffer) {
+#if FLASHCARTIO_EZFO_DISABLE_IRQ != 0
   u16 ime = REG_IME;
   REG_IME = 0;
+#endif
   SetRompage(ROMPAGE_BOOTLOADER);
   const u32 result = Write_SD_sectors(address, count, buffer);
   SetRompage(ROMPAGE_ROM);
+#if FLASHCARTIO_EZFO_DISABLE_IRQ != 0
   REG_IME = ime;
+#endif
   return result == 0;
 }

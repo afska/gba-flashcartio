@@ -5,6 +5,7 @@
 #include "ezflashomega/io_ezfo.h"
 
 ActiveFlashcart active_flashcart = NO_FLASHCART;
+volatile bool flashcartio_is_reading = false;
 
 bool flashcartio_activate(void) {
   // Everdrive GBA X5
@@ -31,13 +32,18 @@ bool flashcartio_activate(void) {
 bool flashcartio_read_sector(u32 sector, u8* destination, u16 count) {
   switch (active_flashcart) {
     case EVERDRIVE_GBA_X5: {
+      flashcartio_is_reading = true;
       bi_unlock_regs();
       bool success = diskRead(sector, destination, count) == 0;
       bi_lock_regs();
+      flashcartio_is_reading = false;
       return success;
     }
     case EZ_FLASH_OMEGA: {
-      return _EZFO_readSectors(sector, count, destination);
+      flashcartio_is_reading = true;
+      bool success = _EZFO_readSectors(sector, count, destination);
+      flashcartio_is_reading = false;
+      return success;
     }
     default:
       return false;

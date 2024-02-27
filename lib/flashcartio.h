@@ -7,6 +7,7 @@
 typedef enum { NO_FLASHCART, EVERDRIVE_GBA_X5, EZ_FLASH_OMEGA } ActiveFlashcart;
 
 extern ActiveFlashcart active_flashcart;
+extern volatile bool flashcartio_is_reading;
 
 bool flashcartio_activate(void);
 bool flashcartio_read_sector(unsigned int sector,

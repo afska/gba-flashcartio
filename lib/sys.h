@@ -8,22 +8,25 @@
 #define BI_SAV_FLA64 64
 #define BI_SAV_FLA128 80
 
-// Set your game's save type here (used by EverDrive)
-#define FLASHCARTIO_SAVE_TYPE BI_SAV_SRM
+// Use DMA1 instead of DMA3
+#define FLASHCARTIO_USE_DMA1 0
 
-// Enables 32MB ROM support (used by EverDrive)
-#define FLASHCARTIO_BIG_ROM 1
+// (EverDrive) Set your game's save type here
+#define FLASHCARTIO_ED_SAVE_TYPE BI_SAV_SRM
 
-// Use DMA1 instead of DMA3 (uncomment to enable)
-// #define FLASHCARTIO_USE_DMA1
+// (EverDrive) Enables 32MB ROM support
+#define FLASHCARTIO_ED_BIG_ROM 1
 
-#ifdef FLASHCARTIO_USE_DMA1
+// (EZ Flash) Disables interrupts while reading
+#define FLASHCARTIO_EZFO_DISABLE_IRQ 1
+
+#if FLASHCARTIO_USE_DMA1 != 0
 #define DMA_SRC *((volatile u32*)0x40000BC)
 #define DMA_DST *((volatile u32*)0x40000C0)
 #define DMA_LEN *((volatile u16*)0x40000C4)
 #define DMA_CTR *((volatile u16*)0x40000C6)
 #endif
-#ifndef FLASHCARTIO_USE_DMA1
+#if FLASHCARTIO_USE_DMA1 == 0
 #define DMA_SRC *((vu32*)0x40000D4)
 #define DMA_DST *((vu32*)0x40000D8)
 #define DMA_LEN *((vu16*)0x40000DC)
