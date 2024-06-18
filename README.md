@@ -16,7 +16,7 @@ The flashcart type is autodetected and FAT partitions are supported via [ELM-Cha
   * When reading, by default (see _Compile-time options_ below), interrupts will be briefly disabled (`REG_IME = 0`) to avoid problems.
   * The _EZ Flash Definitive Edition_ works great out of the box, but in the original one:
     * There's an autosave feature that copies the save file to the microSD card. It's triggered every time you write to SRAM, and it takes ~10 seconds to complete. This can cause conflicts if it tries to write the microSD card while you are reading from it. After writing to SRAM, let some time pass before you read the microSD card, or it will crash!
-    * When reading, your ROM wait states should be _3,2_ or slower. _3,1_ will certainly make it crash!
+    * When reading, your ROM wait states should be `3,2` or slower. `3,1` will certainly make it crash!
 
 ## Install
 
@@ -39,7 +39,7 @@ The code for the _EverDrive_ cartridge is publicly available, but it doesn't hav
 
 Refer to the [example](example/src/main.cpp) to see how it works. It is written in C++ for demonstration purposes, but `gba-flashcartio` is a C library, fully compatible with both C and C++.
 
-The example has _EverDrive_ support enabled for demonstration purposes. To disable it, remove the `-DFLASHCARTIO_ED_ENABLE=1` flag in its `Makefile`.
+To compile the example with _EverDrive_ support, change `-DFLASHCARTIO_ED_ENABLE=0` to `-DFLASHCARTIO_ED_ENABLE=1` in its `Makefile`.
 
 An already compiled .gba ROM is available in the [Releases](https://github.com/afska/gba-flashcartio/releases) section.
 
@@ -48,8 +48,7 @@ An already compiled .gba ROM is available in the [Releases](https://github.com/a
 In `lib/sys.h`:
 - `FLASHCARTIO_USE_DMA1`: Set to `1` to use DMA1 instead of DMA3. You'll need this if you also use DMA for audio, as DMA1/DMA2 have higher priority and will corrupt the SD reads.
 - `FLASHCARTIO_ED_ENABLE`: (*EverDrive*) Set to `1` to enable _EverDrive_ support.
-- `FLASHCARTIO_ED_SAVE_TYPE`: (*EverDrive*) Set your game's save type manually here (one of `BI_SAV_EEP`, `BI_SAV_SRM`, `BI_SAV_FLA64`, `BI_SAV_FLA128`). The default is `BI_SAV_SRM` (SRAM). Unfortunately, this is required for the EverDrive cart, as initializing the registers overwrites ROM configuration that is usually autodetected otherwise.
-- `FLASHCARTIO_ED_BIG_ROM`: (*EverDrive*) If your game is bigger than 16MB, this should be enabled (and it is by default).
+- `FLASHCARTIO_ED_SAVE_TYPE`: (*EverDrive*) Set your game's save type manually here (one of `ED_SAVE_TYPE_EEP`, `ED_SAVE_TYPE_SRM`, `ED_SAVE_TYPE_FLA64`, `ED_SAVE_TYPE_FLA128`). The default is `ED_SAVE_TYPE_SRM` (SRAM). Unfortunately, this is required, since initializing the registers overwrites ROM configuration that is usually autodetected otherwise.
 - `FLASHCARTIO_EZFO_DISABLE_IRQ`: (*EZ Flash*) If you are absolutely sure that your interrupt code doesn't access ROM and you won't be calling `SoftReset` in the middle of a read (see `flashcartio_is_reading`), you can avoid disabling interrupts by setting this option to `0`.
 
 In `lib/fatfs/ffconf.h`:
