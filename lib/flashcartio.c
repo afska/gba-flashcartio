@@ -14,8 +14,6 @@ volatile bool flashcartio_is_reading = false;
 bool detect_everdrive() {
   *((vu16*)(0x9FC0000 + 0xB4)) = 0;
   u16 config = *((vu16*)(0x9FC0000 + 0x14));
-  if (config == 0 || config == 0xffff)
-    return false;
   *((vu16*)(0x9FC0000 + 0x14)) = 0;
   if (*((vu16*)(0x9FC0000 + 0x14)) != config)
     return false;
