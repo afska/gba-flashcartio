@@ -10,7 +10,7 @@ The flashcart type is autodetected and FAT partitions are supported via [ELM-Cha
 - It reads using either **DMA3** or **DMA1**.
 - In **EverDrive** mode:
   * The latter 16MB of the ROM is unavailable while reading, so avoid using that part in your interrupt handlers, or your code might crash.
-  * For this same reason, avoid calling soft-resetting while `flashcartio_is_reading`.
+  * For this same reason, avoid soft-resetting while `flashcartio_is_reading`.
 - In **EZ Flash** mode:
   * ROM is unavailable while using the SD card, so ~1KB of static EWRAM will be taken by some functions.
   * When reading, by default (see _Compile-time options_ below), interrupts will be briefly disabled (`REG_IME = 0`) to avoid problems.
