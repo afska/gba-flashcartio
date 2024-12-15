@@ -160,7 +160,7 @@ IARCH   := -mthumb-interwork -marm -mlong-calls
 
 # --- Main flags ---
 
-CFLAGS		:= -mcpu=arm7tdmi -mtune=arm7tdmi -O2 -DFLASHCARTIO_ED_ENABLE=0
+CFLAGS		:= -mcpu=arm7tdmi -mtune=arm7tdmi -O2 -DFLASHCARTIO_ED_ENABLE=1 -DFLASHCARTIO_EZFO_ENABLE=1
 CFLAGS		+= -Wall
 CFLAGS		+= $(INCLUDE)
 CFLAGS		+= -ffast-math -fno-strict-aliasing

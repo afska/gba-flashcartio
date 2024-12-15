@@ -1,7 +1,6 @@
 # Directories
 build
 .vscode
-lib/everdrivegbax5
 
 # Files
 *.elf

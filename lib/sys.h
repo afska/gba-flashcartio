@@ -13,9 +13,9 @@
 #define FLASHCARTIO_USE_DMA1 0
 #endif
 
-// (EverDrive) Enable EverDrive support (download needed)
+// (EverDrive) Enable EverDrive support
 #ifndef FLASHCARTIO_ED_ENABLE
-#define FLASHCARTIO_ED_ENABLE 0
+#define FLASHCARTIO_ED_ENABLE 1
 #endif
 
 // (EverDrive) Set your game's save type here
@@ -23,8 +23,18 @@
 #define FLASHCARTIO_ED_SAVE_TYPE ED_SAVE_TYPE_SRM
 #endif
 
+// (EverDrive) Disables interrupts while reading
+#ifndef FLASHCARTIO_ED_DISABLE_IRQ
+#define FLASHCARTIO_ED_DISABLE_IRQ 1
+#endif
+
+// (EZ Flash) Enable EZ Flash support
+#ifndef FLASHCARTIO_EZFO_ENABLE
+#define FLASHCARTIO_EZFO_ENABLE 1
+#endif
+
 // (EZ Flash) Disables interrupts while reading
-#ifndef FLASHCARTIO_ED_BIG_ROM
+#ifndef FLASHCARTIO_EZFO_DISABLE_IRQ
 #define FLASHCARTIO_EZFO_DISABLE_IRQ 1
 #endif
 
