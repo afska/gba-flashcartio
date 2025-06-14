@@ -8,6 +8,11 @@
 #define ED_SAVE_TYPE_FLA64 64
 #define ED_SAVE_TYPE_FLA128 80
 
+// Disable DMA (slower)
+#ifndef FLASHCARTIO_DISABLE_DMA
+#define FLASHCARTIO_DISABLE_DMA 0
+#endif
+
 // Use DMA1 instead of DMA3
 #ifndef FLASHCARTIO_USE_DMA1
 #define FLASHCARTIO_USE_DMA1 0
@@ -106,11 +111,15 @@
 inline __attribute__((always_inline)) void dmaCopy(const void* source,
                                                    void* dest,
                                                    u32 size) {
-#ifdef FLASHCARTIO_USE_DMA1
+#if FLASHCARTIO_DISABLE_DMA != 0
+  for (u32 i = 0; i < size >> 2; i++)
+    ((u32*)dest)[i] = ((u32*)source)[i];
+#else
+#if FLASHCARTIO_USE_DMA1 != 0
   DMA_Copy(1, source, dest, DMA32 | size >> 2);
-#endif
-#ifndef FLASHCARTIO_USE_DMA1
+#else
   DMA_Copy(3, source, dest, DMA32 | size >> 2);
+#endif
 #endif
 }
 

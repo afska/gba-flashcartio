@@ -26,6 +26,7 @@ An already compiled .gba ROM is available in the [Releases](https://github.com/a
 ## Compile-time options
 
 In `lib/sys.h`:
+- `FLASHCARTIO_DISABLE_DMA` (default=`0`): Set to `1` to use regular copies instead of DMA. This is slower but can be helpful in some scenarios.
 - `FLASHCARTIO_USE_DMA1` (default=`0`): Set to `1` to use DMA1 instead of DMA3. You'll need this if you also use DMA for audio, as DMA1/DMA2 have higher priority and will corrupt the SD reads. With this option, you can use DMA2 for audio and DMA1 for the SD card.
 - `FLASHCARTIO_ED_ENABLE` (default=`1`): (*EverDrive*) Set to `0` to disable _EverDrive_ support.
 - `FLASHCARTIO_ED_SAVE_TYPE` (default=`ED_SAVE_TYPE_SRM`): (*EverDrive*) Set your game's save type manually here (one of `ED_SAVE_TYPE_EEP`, `ED_SAVE_TYPE_SRM`, `ED_SAVE_TYPE_FLA64`, `ED_SAVE_TYPE_FLA128`). Unfortunately, this is required, since initializing the registers overwrites ROM configuration that is usually autodetected otherwise.
