@@ -23,6 +23,19 @@ Refer to the [example](example/src/main.cpp) to see how it works. It is written 
 
 An already compiled .gba ROM is available in the [Releases](https://github.com/afska/gba-flashcartio/releases) section.
 
+You can compile the example using Docker:
+
+```bash
+cd example
+
+docker run -it \
+  --user "$(id -u):$(id -g)" \
+  -v "$(pwd)/..":/opt/gba \
+  -v "$(pwd)":/opt/gba/example \
+  devkitpro/devkitarm:20241104 \
+  bash -c 'cd /opt/gba/example && make rebuild'
+```
+
 ## Compile-time options
 
 In `lib/sys.h`:
