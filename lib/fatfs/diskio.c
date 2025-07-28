@@ -2,6 +2,7 @@
 /* Low level, read-only, Flashcart I/O module for FatFs                  */
 /*-----------------------------------------------------------------------*/
 
+#include <string.h>
 #include "../flashcartio.h"
 #include "../sys.h"
 
@@ -41,8 +42,7 @@ DRESULT disk_read(BYTE pdrv, BYTE* buff, LBA_t sector, UINT count) {
       if (!flashcartio_read_sector(sector + i, aligned_buff, blocks))
         return RES_ERROR;
 
-      for (u32 j = 0; j < blocks * 512; j++)
-        buff[i * 512 + j] = aligned_buff[j];
+      memcpy(buff + i * 512, aligned_buff, blocks * 512);
     }
     return RES_OK;
   } else {
